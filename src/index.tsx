@@ -15,15 +15,20 @@ export async function bootstrap() {
 /**
  * 应用每次进入都会调用 mount 方法，通常我们在这里触发应用的渲染方法
  */
-export async function mount(props) {
-  console.log('mount==-')
+export async function mount(props: any) {
+  console.log('mount==-', props)
+  const { onGlobalStateChange, setGlobalState } = props
+  onGlobalStateChange((state: any, prev: any) => {
+    console.log('micro state change', state, prev)
+  }, true)
+
   render(props)
 }
 
 /**
  * 应用每次 切出/卸载 会调用的方法，通常在这里我们会卸载微应用的应用实例
  */
-export async function unmount(props) {
+export async function unmount(props: any) {
   ReactDOM.unmountComponentAtNode(
     props.container
       ? props.container.querySelector('#root')
@@ -31,10 +36,11 @@ export async function unmount(props) {
   )
 }
 
-function render(props) {
+function render(props: any) {
   const { container } = props
+
   ReactDOM.render(
-    <App />,
+    <App props={props} />,
     container
       ? container.querySelector('#root')
       : document.querySelector('#root'),
