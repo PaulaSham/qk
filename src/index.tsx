@@ -16,8 +16,8 @@ export async function bootstrap() {
  * 应用每次进入都会调用 mount 方法，通常我们在这里触发应用的渲染方法
  */
 export async function mount(props: any) {
-  console.log('mount==-', props)
-  const { onGlobalStateChange, setGlobalState } = props
+  // console.log('mount==-', props)
+  const { onGlobalStateChange } = props
   onGlobalStateChange((state: any, prev: any) => {
     console.log('micro state change', state, prev)
   }, true)
@@ -40,7 +40,7 @@ function render(props: any) {
   const { container } = props
 
   ReactDOM.render(
-    <App props={props} />,
+    <App />,
     container
       ? container.querySelector('#root')
       : document.querySelector('#root'),
@@ -51,12 +51,12 @@ if (!window.__POWERED_BY_QIANKUN__) {
   render({})
 }
 
-// /**
-//  * 可选生命周期钩子，仅使用 loadMicroApp 方式加载微应用时生效
-//  */
-// export async function update(props) {
-//   console.log('update props', props)
-// }
+/**
+ * 可选生命周期钩子，仅使用 loadMicroApp 方式加载微应用时生效
+ */
+export async function update(props: any) {
+  console.log('update props', props)
+}
 
 // ReactDOM.render(
 //   <React.StrictMode>
